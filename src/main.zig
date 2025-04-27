@@ -96,8 +96,8 @@ pub fn camelCase(text: []u8) usize {
     var i: usize = 0;
     var spaces_found: usize = 0;
     while (i < text.len - spaces_found) {
-        var c = &text[i];
-        if (!first_letter_found and std.ascii.isAlpha(c.*)) {
+        const c = &text[i];
+        if (!first_letter_found and std.ascii.isAlphabetic(c.*)) {
             c.* = ascii.toLower(c.*);
             first_letter_found = true;
             is_word_start = false;
@@ -106,7 +106,7 @@ pub fn camelCase(text: []u8) usize {
         }
 
         if (c.* == ' ') {
-            std.mem.copy(u8, text[i..], text[i + 1 ..]);
+            @memcpy(text[i..], text[i + 1 ..]);
             is_word_start = true;
             spaces_found += 1;
             continue;
@@ -130,9 +130,9 @@ pub fn pascalCase(text: []u8) usize {
     var i: usize = 0;
     var spaces_found: usize = 0;
     while (i < text.len - spaces_found) {
-        var c = &text[i];
+        const c = &text[i];
         if (c.* == ' ') {
-            std.mem.copy(u8, text[i..], text[i + 1 ..]);
+            @memcpy(text[i..], text[i + 1 ..]);
             is_word_start = true;
             spaces_found += 1;
             continue;
